@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinLit Teens - Master Your Money</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #0ea5e9; --primary-dark: #0284c7; --primary-light: #e0f2fe;
+      --accent: #d946ef; --accent-dark: #c026d3; --accent-light: #fae8ff;
+      --success: #22c55e; --success-dark: #16a34a; --success-light: #dcfce7;
+      --gold: #f59e0b; --gold-dark: #d97706; --gold-light: #fef3c7;
+      --danger: #ef4444; --danger-light: #fee2e2;
+      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+      --gray-300: #d1d5db; --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
+      --radius: 16px; --radius-sm: 10px;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--gray-50), #e0f2fe30, #fae8ff10);
+      color: var(--gray-900); min-height: 100vh; line-height: 1.6;
+    }
+    /* Animations */
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes bounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .animate-slide-up { animation: slideUp 0.4s ease-out; }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-bounce { animation: bounce 2s ease-in-out infinite; }
+    .fade-in { animation: fadeIn 0.3s ease-out; }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .nav { background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 100; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 18px; box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
+    .nav-title { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, var(--primary-dark), var(--accent-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link { padding: 8px 16px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: var(--gray-500); text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; background: none; }
+    .nav-link:hover { color: var(--gray-900); background: var(--gray-100); }
+    .nav-link.active { color: var(--primary-dark); background: var(--primary-light); }
+    .mobile-menu-btn { display: none; padding: 8px; border: none; background: none; cursor: pointer; font-size: 24px; }
+
+    /* Cards */
+    .card { background: white; border-radius: var(--radius); padding: 24px; border: 1px solid var(--gray-200); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s; }
+    .card:hover { box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); }
+    .card-interactive { cursor: pointer; }
+    .card-interactive:hover { transform: translateY(-4px) scale(1.01); }
+
+    /* Buttons */
+    .btn { padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+    .btn:hover { transform: scale(1.03); }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
+    .btn-secondary { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; box-shadow: 0 4px 12px rgba(217,70,239,0.3); }
+    .btn-success { background: linear-gradient(135deg, var(--success), var(--success-dark)); color: white; box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--gray-900); box-shadow: 0 4px 12px rgba(245,158,11,0.3); }
+    .btn-outline { background: white; border: 2px solid var(--gray-200); color: var(--gray-700); }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-sm { padding: 8px 16px; font-size: 12px; }
+    .btn-lg { padding: 16px 32px; font-size: 16px; }
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* Grid */
+    .grid { display: grid; gap: 20px; }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* Progress */
+    .progress-bar { height: 10px; background: var(--gray-200); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease-out; }
+
+    /* Badge */
+    .badge { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+    .badge-primary { background: var(--primary-light); color: var(--primary-dark); }
+    .badge-success { background: var(--success-light); color: var(--success-dark); }
+    .badge-gold { background: var(--gold-light); color: var(--gold-dark); }
+    .badge-gray { background: var(--gray-100); color: var(--gray-700); }
+
+    /* Utilities */
+    .text-center { text-align: center; }
+    .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; }
+    .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+    .space-y > * + * { margin-top: 16px; }
+    .space-y-sm > * + * { margin-top: 8px; }
+    .flex { display: flex; } .flex-col { flex-direction: column; }
+    .items-center { align-items: center; } .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; } .gap-6 { gap: 24px; }
+    .flex-wrap { flex-wrap: wrap; }
+    .hidden { display: none !important; }
+    .text-sm { font-size: 14px; } .text-xs { font-size: 12px; } .text-lg { font-size: 18px; }
+    .text-xl { font-size: 24px; } .text-2xl { font-size: 30px; } .text-3xl { font-size: 36px; }
+    .font-bold { font-weight: 700; } .font-medium { font-weight: 500; }
+    .text-gray { color: var(--gray-500); } .text-primary { color: var(--primary-dark); }
+    .text-success { color: var(--success-dark); } .text-danger { color: var(--danger); }
+    .text-gold { color: var(--gold-dark); }
+    .rounded-xl { border-radius: var(--radius); }
+
+    /* Input */
+    input[type="number"], input[type="text"], select {
+      padding: 10px 16px; border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-size: 14px; transition: border-color 0.2s; outline: none; width: 100%;
+    }
+    input:focus, select:focus { border-color: var(--primary); }
+    input[type="range"] { width: 100%; accent-color: var(--primary); }
+
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--primary-dark), var(--accent-dark), #7c3aed); border-radius: var(--radius); padding: 48px 40px; color: white; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+    .hero::after { content: ''; position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+
+    /* Page */
+    .page { padding: 32px 0; }
+    main { min-height: calc(100vh - 64px); }
+
+    /* Course color classes */
+    .color-green { background: linear-gradient(135deg, #4ade80, #059669); }
+    .color-blue { background: linear-gradient(135deg, #60a5fa, #4f46e5); }
+    .color-yellow { background: linear-gradient(135deg, #fbbf24, #f97316); }
+    .color-purple { background: linear-gradient(135deg, #c084fc, #ec4899); }
+    .color-teal { background: linear-gradient(135deg, #2dd4bf, #0891b2); }
+    .color-rose { background: linear-gradient(135deg, #fb7185, #e11d48); }
+
+    /* Board game specific */
+    .board-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .board-cell { padding: 8px; border-radius: 8px; text-align: center; font-size: 11px; border: 2px solid var(--gray-200); transition: all 0.3s; }
+    .board-cell.current { border-color: var(--accent); background: var(--accent-light); transform: scale(1.05); box-shadow: 0 4px 12px rgba(217,70,239,0.2); }
+    .board-cell.visited { border-color: var(--success); background: var(--success-light); }
+
+    /* Quiz option */
+    .quiz-option { padding: 16px; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; text-align: left; width: 100%; background: white; font-size: 14px; }
+    .quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+
+    /* Stock table */
+    .stock-table { width: 100%; border-collapse: collapse; }
+    .stock-table th { text-align: left; padding: 10px; font-size: 12px; color: var(--gray-500); border-bottom: 1px solid var(--gray-200); }
+    .stock-table td { padding: 10px; border-bottom: 1px solid var(--gray-100); }
+
+    /* Notification */
+    .notification { position: fixed; bottom: 24px; right: 24px; background: white; border-radius: var(--radius); padding: 16px 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 2px solid var(--gold-light); z-index: 1000; animation: slideUp 0.4s ease-out; max-width: 300px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: white; padding: 16px; border-bottom: 1px solid var(--gray-200); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+      .hero { padding: 32px 24px; }
+      .board-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-brand" href="#" onclick="navigate('home')">
+        <div class="nav-logo">$</div>
+        <span class="nav-title">FinLit Teens</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <button class="nav-link active" data-page="home" onclick="navigate('home')">🏠 Home</button>
+        <button class="nav-link" data-page="courses" onclick="navigate('courses')">📚 Courses</button>
+        <button class="nav-link" data-page="games" onclick="navigate('games')">🎮 Games</button>
+        <button class="nav-link" data-page="calculator" onclick="navigate('calculator')">🧮 Tools</button>
+        <button class="nav-link" data-page="progress" onclick="navigate('progress')">🏆 Progress</button>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div id="app"></div>
+  </main>
+
+  <!-- Notification container -->
+  <div id="notification"></div>
+
+  <script>
+
+// ============ STATE MANAGEMENT ============
+const state = {
+  currentPage: 'home',
+  progress: {
+    xp: 0, level: 1, lessonsCompleted: [], quizzesCompleted: [],
+    coursesCompleted: [], gamesPlayed: 0, gamesWon: 0,
+    badges: [], totalMoneyEarned: 0,
+  }
+};
+
+// Load saved progress
+const saved = localStorage.getItem('finlit-progress');
+if (saved) { try { state.progress = JSON.parse(saved); } catch(e) {} }
+
+function saveProgress() { localStorage.setItem('finlit-progress', JSON.stringify(state.progress)); }
+function calcLevel(xp) { return Math.floor(xp / 100) + 1; }
+
+function addXP(amount) {
+  state.progress.xp += amount;
+  state.progress.level = calcLevel(state.progress.xp);
+  checkBadges(); saveProgress();
+}
+
+// ============ BADGES ============
+const BADGES = [
+  { id: 'first-lesson', name: 'First Step', icon: '🎯', desc: 'Complete your first lesson', check: p => p.lessonsCompleted.length >= 1 },
+  { id: 'five-lessons', name: 'Knowledge Seeker', icon: '📖', desc: 'Complete 5 lessons', check: p => p.lessonsCompleted.length >= 5 },
+  { id: 'first-quiz', name: 'Quiz Whiz', icon: '🧠', desc: 'Complete your first quiz', check: p => p.quizzesCompleted.length >= 1 },
+  { id: 'first-game', name: 'Game On!', icon: '🎮', desc: 'Play your first board game', check: p => p.gamesPlayed >= 1 },
+  { id: 'five-games', name: 'Board Master', icon: '♟️', desc: 'Play 5 board games', check: p => p.gamesPlayed >= 5 },
+  { id: 'first-win', name: 'Winner!', icon: '🏆', desc: 'Win your first game', check: p => p.gamesWon >= 1 },
+  { id: 'level-5', name: 'Rising Star', icon: '⭐', desc: 'Reach level 5', check: p => p.level >= 5 },
+  { id: 'level-10', name: 'Financial Guru', icon: '🌟', desc: 'Reach level 10', check: p => p.level >= 10 },
+  { id: 'first-course', name: 'Course Champion', icon: '🎓', desc: 'Complete a course', check: p => p.coursesCompleted.length >= 1 },
+  { id: 'money-master', name: 'Money Master', icon: '💰', desc: 'Earn $10,000 in games', check: p => p.totalMoneyEarned >= 10000 },
+];
+
+function checkBadges() {
+  BADGES.forEach(badge => {
+    if (!state.progress.badges.includes(badge.id) && badge.check(state.progress)) {
+      state.progress.badges.push(badge.id);
+      showNotification(badge);
+    }
+  });
+  saveProgress();
+}
+
+function showNotification(badge) {
+  const el = document.getElementById('notification');
+  el.innerHTML = `<div class="notification"><div class="flex items-center gap-3"><span style="font-size:36px" class="animate-bounce">${badge.icon}</span><div><p class="text-xs font-bold text-gold" style="text-transform:uppercase;letter-spacing:1px">Badge Unlocked!</p><p class="font-bold">${badge.name}</p><p class="text-xs text-gray">${badge.desc}</p></div></div></div>`;
+  setTimeout(() => { el.innerHTML = ''; }, 4000);
+}
+
+
+// ============ COURSES DATA ============
+const courses = [
+  {
+    id: 'compound-interest', title: 'Compound Interest', subtitle: 'Watch your money grow exponentially',
+    icon: '📈', colorClass: 'color-green', difficulty: 'Beginner', duration: '30 min',
+    lessons: [
+      { id: 'ci-1', title: 'What is Interest?', content: `Interest is the cost of borrowing money — or the reward for saving it! When you put money in a savings account, the bank pays you interest for letting them use your money.\n\n<b>Simple Interest</b> is calculated only on the original amount (principal).\n\nFormula: Interest = Principal × Rate × Time\n\nExample: $1,000 at 5% for 1 year = $1,000 × 0.05 × 1 = $50` },
+      { id: 'ci-2', title: 'The Magic of Compounding', content: `Compound interest is interest earned on BOTH your original money AND the interest you've already earned. It's like a snowball rolling downhill!\n\n<b>Formula:</b> A = P(1 + r/n)^(nt)\n\nWhere:\n• A = Final amount\n• P = Principal (starting money)\n• r = Annual interest rate\n• n = Times compounded per year\n• t = Number of years\n\n<b>Example:</b> $1,000 at 5% compounded annually for 10 years:\nA = $1,000(1 + 0.05)^10 = $1,628.89\n\nYou earned $628.89 — that's $128.89 MORE than simple interest!` },
+      { id: 'ci-3', title: 'The Rule of 72', content: `Want a quick way to know how long it takes to DOUBLE your money? Use the Rule of 72!\n\n<b>Formula:</b> Years to double = 72 ÷ Interest Rate\n\nExamples:\n• At 6% interest: 72 ÷ 6 = 12 years to double\n• At 8% interest: 72 ÷ 8 = 9 years to double\n• At 12% interest: 72 ÷ 12 = 6 years to double\n\n<b>Pro Tip:</b> Start investing early! If you invest $1,000 at age 15 with 8% returns, by age 60 you'd have about $31,920 — without adding another penny!` },
+    ],
+    quiz: [
+      { q: 'What does compound interest earn interest on?', options: ['Only the principal', 'Principal and accumulated interest', 'Only the interest', 'Neither'], answer: 1 },
+      { q: 'Using the Rule of 72, how long to double money at 9%?', options: ['6 years', '8 years', '9 years', '12 years'], answer: 1 },
+      { q: 'Which grows faster over time?', options: ['Simple interest', 'Compound interest', 'They grow the same', 'It depends on the day'], answer: 1 },
+    ],
+  },
+  {
+    id: 'loans', title: 'Understanding Loans', subtitle: 'Borrow smart, pay less',
+    icon: '🏦', colorClass: 'color-blue', difficulty: 'Intermediate', duration: '35 min',
+    lessons: [
+      { id: 'loan-1', title: 'How Loans Work', content: `A loan is money you borrow that you must pay back with interest. The lender takes a risk giving you money, so they charge interest as their reward.\n\n<b>Key Terms:</b>\n• Principal: The amount you borrow\n• Interest Rate: The cost of borrowing (annual %)\n• Term: How long you have to repay\n• Monthly Payment: What you pay each month\n• Collateral: Something valuable you pledge as security\n\n<b>Types of Loans:</b>\n• Student loans (for education)\n• Auto loans (for cars)\n• Mortgages (for homes)\n• Personal loans (for anything)\n• Credit cards (revolving credit)` },
+      { id: 'loan-2', title: 'Good Debt vs Bad Debt', content: `Not all debt is created equal!\n\n<b>Good Debt</b> helps you build wealth:\n• Student loans (higher earning potential)\n• Mortgage (builds equity)\n• Business loans (generates income)\n\n<b>Bad Debt</b> loses value:\n• Credit card debt on wants\n• Payday loans (extremely high interest)\n• Car loans on luxury vehicles you can't afford\n\n<b>The Rule:</b> If it won't make you money or grow in value, think twice before borrowing!` },
+      { id: 'loan-3', title: 'Credit Scores', content: `Your credit score is like a financial report card (300-850).\n\n<b>Score Ranges:</b>\n• 800+ = Exceptional\n• 740-799 = Very Good\n• 670-739 = Good\n• 580-669 = Fair\n• Below 580 = Poor\n\n<b>What affects your score:</b>\n• Payment history (35%) — Pay on time!\n• Amount owed (30%) — Don't max out cards\n• Length of history (15%)\n• New credit (10%)\n• Credit mix (10%)\n\n<b>Teen Tip:</b> Get added as an authorized user on a parent's credit card to start building credit!` },
+    ],
+    quiz: [
+      { q: 'Which is generally "good debt"?', options: ['Credit card for clothes', 'Payday loan', 'Student loan', 'Vacation loan'], answer: 2 },
+      { q: 'What most affects your credit score?', options: ['Credit mix', 'Payment history', 'New credit', 'Length of history'], answer: 1 },
+      { q: 'What is collateral?', options: ['Monthly payment', 'Something pledged as security', 'Interest rate', 'A credit card type'], answer: 1 },
+    ],
+  },
+  {
+    id: 'budgeting', title: 'Budgeting Basics', subtitle: 'Take control of every dollar',
+    icon: '💰', colorClass: 'color-yellow', difficulty: 'Beginner', duration: '25 min',
+    lessons: [
+      { id: 'bud-1', title: 'Why Budget?', content: `A budget is a plan for your money. Without one, money slips away!\n\n<b>Benefits:</b>\n• Know where your money goes\n• Save for what you really want\n• Avoid debt and stress\n• Reach goals faster\n\n<b>The 50/30/20 Rule:</b>\n• 50% — Needs (food, housing, transport)\n• 30% — Wants (entertainment, dining out)\n• 20% — Savings & Debt repayment\n\n<b>For Teens:</b> Try 40/40/20 — 40% savings, 40% fun, 20% giving or investing!` },
+      { id: 'bud-2', title: 'Creating Your Budget', content: `<b>Step 1:</b> Track Your Income\nAllowance, part-time job, birthday money, side hustles.\n\n<b>Step 2:</b> List Your Expenses\nFixed: Phone bill, subscriptions, savings goal\nVariable: Food, entertainment, clothes\n\n<b>Step 3:</b> Subtract Expenses from Income\nPositive = You have money to save!\nNegative = Time to cut spending\n\n<b>Step 4:</b> Adjust & Optimize\nFind subscriptions you don't use. Find cheaper options.\n\n<b>Methods:</b>\n• Envelope method (cash in categories)\n• Zero-based budgeting (every dollar has a job)\n• Pay yourself first (auto-save before spending)` },
+      { id: 'bud-3', title: 'Smart Spending', content: `<b>The 24-Hour Rule:</b> Wait 24 hours before any non-essential purchase over $20.\n\n<b>The 10% Rule:</b> Never spend more than 10% of savings on a single want.\n\n<b>Compare Before Buying:</b>\n• Check 3+ stores\n• Look for student discounts\n• Buy used when possible\n• Wait for sales\n\n<b>Needs vs Wants:</b>\n• Need: Winter coat → Want: Designer brand\n• Need: Phone → Want: Latest model\n• Need: Food → Want: Eating out daily\n\n<b>Money Leaks:</b>\n• Unused subscriptions\n• Daily coffee runs\n• In-app purchases\n• Impulse buys` },
+    ],
+    quiz: [
+      { q: 'In the 50/30/20 rule, what % goes to wants?', options: ['50%', '30%', '20%', '10%'], answer: 1 },
+      { q: 'What is the 24-Hour Rule?', options: ['Return items in 24hrs', 'Wait before non-essential purchases', 'Budget every 24hrs', 'Save $24 daily'], answer: 1 },
+      { q: 'What is zero-based budgeting?', options: ['Having zero savings', 'Every dollar gets a purpose', 'Spending nothing', 'Starting with zero'], answer: 1 },
+    ],
+  },
+
+  {
+    id: 'business', title: 'Starting a Business', subtitle: 'Turn your ideas into income',
+    icon: '🚀', colorClass: 'color-purple', difficulty: 'Advanced', duration: '40 min',
+    lessons: [
+      { id: 'biz-1', title: 'Entrepreneurship 101', content: `An entrepreneur creates a business to solve a problem.\n\n<b>Teen Business Ideas:</b>\n• Tutoring younger students\n• Social media management\n• Lawn care / pet sitting\n• Reselling (thrift flipping)\n• Digital art / design\n• Content creation\n\n<b>Key Qualities:</b>\n• Problem solvers\n• Calculated risk takers\n• Persistent and resilient\n• Creative thinkers\n\n<b>Lean Startup Method:</b>\n1. Have an idea\n2. Build minimum viable product (MVP)\n3. Test with real customers\n4. Learn and improve\n5. Repeat!` },
+      { id: 'biz-2', title: 'Revenue & Profit', content: `<b>Revenue</b> = Money coming IN from sales\n<b>Expenses</b> = Money going OUT (costs)\n<b>Profit</b> = Revenue - Expenses\n\n<b>Simple Business Plan:</b>\n1. What do you sell?\n2. Who buys it?\n3. How will they find you?\n4. What does it cost?\n5. How will you price it?\n\n<b>Pricing Strategies:</b>\n• Cost-plus: Your cost + markup\n• Value-based: What customers will pay\n• Competitive: Match or beat competitors\n\n<b>Example:</b> Lawn mowing\n• Gas + wear: $10/lawn\n• Your time: $15/hour\n• Price: $35-50/lawn = $10-25 profit!` },
+      { id: 'biz-3', title: 'Free Marketing', content: `You don't need money to market — you need creativity!\n\n<b>Free Strategies:</b>\n• Social media (Instagram, TikTok)\n• Word of mouth\n• Community boards\n• School bulletin boards\n• Referral discounts\n\n<b>Building Your Brand:</b>\n• Choose a memorable name\n• Create a simple logo (Canva)\n• Be consistent\n• Deliver amazing service\n• Collect testimonials\n\n<b>Social Media Tips:</b>\n• Show behind-the-scenes\n• Share customer results\n• Post consistently\n• Engage with comments\n• Create valuable content` },
+    ],
+    quiz: [
+      { q: 'What is profit?', options: ['Total sales', 'Revenue minus expenses', 'Money in bank', 'Price you charge'], answer: 1 },
+      { q: 'What is an MVP?', options: ['Most Valuable Player', 'Minimum Viable Product', 'Maximum Value Price', 'Marketing Via Posts'], answer: 1 },
+      { q: 'Which is free marketing?', options: ['TV commercial', 'Billboard', 'Word of mouth', 'Magazine ad'], answer: 2 },
+    ],
+  },
+  {
+    id: 'trading', title: 'Trading & Investing', subtitle: 'Make your money work for you',
+    icon: '📊', colorClass: 'color-teal', difficulty: 'Intermediate', duration: '35 min',
+    lessons: [
+      { id: 'trade-1', title: 'Investing vs Trading', content: `<b>Investing</b> = Buying to hold LONG TERM (years)\n<b>Trading</b> = Buying/selling for SHORT TERM profit\n\n<b>Types of Investments:</b>\n• Stocks: Own a piece of a company\n• Bonds: Lend money for interest\n• ETFs/Index Funds: Baskets of stocks\n• Real Estate: Property\n• Crypto: Digital currencies (very risky!)\n\n<b>Why Invest Young?</b>\n• $100/month at 8% from age 15 to 65: ~$702,000\n• $100/month at 8% from age 25 to 65: ~$310,000\n• 10 years earlier = $392,000 MORE!\n\n<b>Rule #1:</b> Never invest money you can't afford to lose.` },
+      { id: 'trade-2', title: 'The Stock Market', content: `The stock market is a marketplace for buying/selling company shares.\n\n<b>Key Concepts:</b>\n• Share: Tiny piece of ownership\n• Dividend: Cash payments to shareholders\n• Bull Market: Prices going UP 🐂\n• Bear Market: Prices going DOWN 🐻\n• Portfolio: Your collection of investments\n\n<b>How to Pick Stocks:</b>\n1. Invest in what you understand\n2. Look at revenue growth\n3. Check profitability\n4. Consider competition\n5. Think long-term\n\n<b>Diversification:</b> Don't put all eggs in one basket!\n• Mix of industries\n• Mix of company sizes\n• Mix of asset types` },
+      { id: 'trade-3', title: 'Risk Management', content: `<b>Golden Rules:</b>\n1. Never invest bill/emergency money\n2. Diversify investments\n3. Don't panic sell in drops\n4. Research before investing\n5. Start small and learn\n\n<b>Risk vs Reward:</b>\n• Low: Savings accounts, bonds\n• Medium: Index funds, blue-chips\n• High: Individual stocks, crypto\n\n<b>Dollar-Cost Averaging:</b>\nInvest the SAME amount on a REGULAR schedule.\n• Removes emotion\n• Buys more when prices are low\n• Buys less when prices are high\n• Averages out cost over time\n\n<b>For Teens:</b> Use paper trading apps to practice without risk!` },
+    ],
+    quiz: [
+      { q: 'What is diversification?', options: ['Buying one great stock', 'Spreading across many assets', 'Selling everything', 'Day trading'], answer: 1 },
+      { q: 'What is a bull market?', options: ['Prices falling', 'Prices rising', 'Market closed', 'Very risky'], answer: 1 },
+      { q: 'What is dollar-cost averaging?', options: ['Buying cheap stocks only', 'Investing same amount regularly', 'Trading daily', 'Only using dollars'], answer: 1 },
+    ],
+  },
+  {
+    id: 'financial-literacy', title: 'Financial Literacy', subtitle: 'Essential money skills for life',
+    icon: '🎓', colorClass: 'color-rose', difficulty: 'Beginner', duration: '30 min',
+    lessons: [
+      { id: 'fl-1', title: 'Money Mindset', content: `Your relationship with money starts with MINDSET.\n\n<b>Scarcity:</b> "There's never enough"\n<b>Abundance:</b> "I can create more value"\n\n<b>Healthy Beliefs:</b>\n• Money is a tool, not good or evil\n• I deserve financial security\n• I can learn about money\n• Small actions = big results\n\n<b>SMART Goals:</b>\n• Specific: "Save $500" not "save money"\n• Measurable: Track weekly\n• Achievable: Start small\n• Relevant: Matters to YOU\n• Time-bound: "By December 31"` },
+      { id: 'fl-2', title: 'Banking & Accounts', content: `<b>Account Types:</b>\n• Checking: Daily spending, debit card\n• Savings: Earns interest, goals\n• CD: Lock money for higher interest\n• Investment: Stocks, bonds, funds\n\n<b>Avoid Bank Fees:</b>\n• Keep minimum balance\n• Use in-network ATMs\n• Set up direct deposit\n• Use student accounts (free!)\n• Track balance for no overdrafts\n\n<b>Digital Banking Tips:</b>\n• Enable transaction notifications\n• Use strong passwords\n• Never share login info\n• Monitor for unauthorized charges` },
+      { id: 'fl-3', title: 'Taxes & Income', content: `<b>Why Taxes?</b>\nFund public services: roads, schools, fire dept, parks.\n\n<b>Types of Tax:</b>\n• Income Tax: On money you earn\n• Sales Tax: Added to purchases\n• Property Tax: On property you own\n• Capital Gains: On investment profits\n\n<b>Your First Paycheck:</b>\nGross Pay vs Net Pay (take-home)\n• Federal income tax\n• State tax (varies)\n• Social Security (6.2%)\n• Medicare (1.45%)\n\n<b>Teen Tips:</b>\n• Tax on income over ~$13,850/year\n• Keep records of all income\n• Self-employment over $400 is taxable\n• You might get a refund!` },
+    ],
+    quiz: [
+      { q: 'What makes a SMART goal?', options: ['Being ambitious', 'Specific, Measurable, Achievable, Relevant, Time-bound', 'Telling everyone', 'Writing in a journal'], answer: 1 },
+      { q: 'Which earns most interest?', options: ['Checking account', 'Under your mattress', 'Certificate of Deposit', 'Digital wallet'], answer: 2 },
+      { q: 'What is net pay?', options: ['Gross pay before taxes', 'Salary on paper', 'Take-home after deductions', 'Side job money'], answer: 2 },
+    ],
+  },
+];
+
+
+// ============ NAVIGATION ============
+function navigate(page, data) {
+  state.currentPage = page;
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.toggle('active', link.dataset.page === page || (page.startsWith('course-') && link.dataset.page === 'courses') || (page.startsWith('game-') && link.dataset.page === 'games'));
+  });
+  renderPage(data);
+  window.scrollTo(0, 0);
+}
+
+function toggleMobileMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+function renderPage(data) {
+  if (data !== undefined) state._pageData = data;
+  const app = document.getElementById('app');
+  switch(state.currentPage) {
+    case 'home': app.innerHTML = renderDashboard(); break;
+    case 'courses': app.innerHTML = renderCourses(); break;
+    case 'course-detail': app.innerHTML = renderCourseDetail(state._pageData); break;
+    case 'games': app.innerHTML = renderGames(); break;
+    case 'game-money-trail': app.innerHTML = renderMoneyTrail(); break;
+    case 'game-stock-market': app.innerHTML = renderStockMarket(); break;
+    case 'game-budget-battle': app.innerHTML = renderBudgetBattle(); break;
+    case 'calculator': app.innerHTML = renderCalculator(); break;
+    case 'progress': app.innerHTML = renderProgress(); break;
+    default: app.innerHTML = renderDashboard();
+  }
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  const p = state.progress;
+  const xpProgress = (p.xp % 100) / 100 * 100;
+  const xpToNext = 100 - (p.xp % 100);
+  return `
+    <div class="page animate-slide-up space-y">
+      <div class="hero">
+        <h1 style="font-size:32px;font-weight:800;margin-bottom:12px">Welcome to FinLit Teens! 🎉</h1>
+        <p style="font-size:16px;opacity:0.9;margin-bottom:24px;max-width:600px">Master money skills through interactive courses and fun board games. Build your financial future starting today!</p>
+        <div class="flex gap-3 flex-wrap">
+          <button class="btn btn-gold btn-lg" onclick="navigate('courses')">Start Learning 📚</button>
+          <button class="btn btn-lg" style="background:rgba(255,255,255,0.2);color:white;backdrop-filter:blur(4px)" onclick="navigate('games')">Play Games 🎮</button>
+        </div>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card text-center">
+          <div style="font-size:28px;margin-bottom:8px">⭐</div>
+          <div style="font-size:22px;font-weight:700;color:var(--primary-dark)">Level ${p.level}</div>
+          <div class="text-xs text-gray">Current Level</div>
+          <div class="progress-bar mt-2"><div class="progress-fill" style="width:${xpProgress}%;background:linear-gradient(90deg,var(--primary),var(--accent))"></div></div>
+          <div class="text-xs text-gray mt-2">${xpToNext} XP to next</div>
+        </div>
+        <div class="card text-center">
+          <div style="font-size:28px;margin-bottom:8px">📚</div>
+          <div style="font-size:22px;font-weight:700;color:var(--accent-dark)">${p.lessonsCompleted.length}</div>
+          <div class="text-xs text-gray">Lessons Done</div>
+        </div>
+        <div class="card text-center">
+          <div style="font-size:28px;margin-bottom:8px">🎮</div>
+          <div style="font-size:22px;font-weight:700;color:var(--success-dark)">${p.gamesPlayed}</div>
+          <div class="text-xs text-gray">Games Played</div>
+        </div>
+        <div class="card text-center">
+          <div style="font-size:28px;margin-bottom:8px">🏆</div>
+          <div style="font-size:22px;font-weight:700;color:var(--gold-dark)">${p.badges.length}</div>
+          <div class="text-xs text-gray">Badges</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="font-bold text-lg">📚 Courses</h2>
+            <a class="text-sm text-primary font-medium" style="cursor:pointer" onclick="navigate('courses')">View All →</a>
+          </div>
+          <div class="space-y-sm">
+            ${courses.slice(0,3).map(c => `
+              <div class="flex items-center gap-3" style="padding:10px;border-radius:10px;cursor:pointer" onclick="navigate('course-detail','${c.id}')" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px" class="${c.colorClass}">${c.icon}</div>
+                <div><p class="font-medium text-sm">${c.title}</p><p class="text-xs text-gray">${c.subtitle}</p></div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="font-bold text-lg">🎮 Board Games</h2>
+            <a class="text-sm text-primary font-medium" style="cursor:pointer" onclick="navigate('games')">View All →</a>
+          </div>
+          <div class="space-y-sm">
+            <div class="flex items-center gap-3" style="padding:10px;border-radius:10px;cursor:pointer" onclick="navigate('game-money-trail')" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+              <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px" class="color-purple">🎲</div>
+              <div><p class="font-medium text-sm">Money Trail</p><p class="text-xs text-gray">Journey to financial freedom</p></div>
+            </div>
+            <div class="flex items-center gap-3" style="padding:10px;border-radius:10px;cursor:pointer" onclick="navigate('game-stock-market')" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+              <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px" class="color-teal">📊</div>
+              <div><p class="font-medium text-sm">Stock Market Challenge</p><p class="text-xs text-gray">Build your portfolio</p></div>
+            </div>
+            <div class="flex items-center gap-3" style="padding:10px;border-radius:10px;cursor:pointer" onclick="navigate('game-budget-battle')" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+              <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px" class="color-rose">⚔️</div>
+              <div><p class="font-medium text-sm">Budget Battle</p><p class="text-xs text-gray">Manage your monthly budget</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="background:linear-gradient(135deg,var(--gold-light),#fefce8);border-color:#fde68a">
+        <div class="flex items-center gap-4">
+          <div style="font-size:36px" class="animate-float">💡</div>
+          <div>
+            <h3 class="font-bold mb-2">Tip of the Day</h3>
+            <p class="text-sm" style="color:var(--gray-700)">The best time to start investing was yesterday. The second best time is today. Even $5 a week adds up to $260 a year — and with compound interest, much more over time!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+// ============ COURSES PAGE ============
+function renderCourses() {
+  return `
+    <div class="page animate-slide-up space-y">
+      <div>
+        <h1 class="text-2xl font-bold">📚 Learning Courses</h1>
+        <p class="text-gray mt-2">Master essential financial skills through interactive lessons and quizzes</p>
+      </div>
+      <div class="grid grid-3">
+        ${courses.map(c => {
+          const completedLessons = c.lessons.filter(l => state.progress.lessonsCompleted.includes(l.id)).length;
+          const progress = Math.round((completedLessons / c.lessons.length) * 100);
+          const done = state.progress.coursesCompleted.includes(c.id);
+          return `
+            <div class="card card-interactive" onclick="navigate('course-detail','${c.id}')">
+              <div style="width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px" class="${c.colorClass}">${c.icon}</div>
+              <h3 class="font-bold text-lg mb-2">${c.title}</h3>
+              <p class="text-sm text-gray mb-4">${c.subtitle}</p>
+              <div class="flex gap-2 mb-4">
+                <span class="badge badge-gray">${c.difficulty}</span>
+                <span class="badge badge-gray">⏱ ${c.duration}</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${progress}%;background:linear-gradient(90deg,var(--success),var(--primary))"></div></div>
+              <div class="flex justify-between mt-2">
+                <span class="text-xs text-gray">${progress}% complete</span>
+                ${done ? '<span class="text-xs font-bold text-success">✅ Done</span>' : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ============ COURSE DETAIL ============
+let courseState = { lessonIdx: 0, quizStarted: false, quizIdx: 0, quizAnswers: [], quizScore: null };
+
+function renderCourseDetail(courseId) {
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return '<p>Course not found</p>';
+  if (courseId !== courseState._courseId) {
+    courseState = { _courseId: courseId, lessonIdx: 0, quizStarted: false, quizIdx: 0, quizAnswers: [], quizScore: null, tab: 'lessons' };
+  }
+  const lesson = course.lessons[courseState.lessonIdx];
+  const isComplete = state.progress.lessonsCompleted.includes(lesson.id);
+  const allDone = course.lessons.every(l => state.progress.lessonsCompleted.includes(l.id));
+  const quizDone = state.progress.quizzesCompleted.includes(course.id);
+
+  return `
+    <div class="page animate-slide-up space-y">
+      <a style="cursor:pointer;color:var(--gray-500)" onclick="navigate('courses')">← Back to Courses</a>
+      <div style="border-radius:var(--radius);padding:24px;color:white" class="${course.colorClass}">
+        <div class="flex items-center gap-4">
+          <span style="font-size:36px">${course.icon}</span>
+          <div><h1 class="text-xl font-bold">${course.title}</h1><p style="opacity:0.85">${course.subtitle}</p></div>
+        </div>
+      </div>
+
+      <div class="flex gap-2" style="background:var(--gray-100);padding:4px;border-radius:var(--radius-sm)">
+        <button class="btn btn-sm ${courseState.tab==='lessons'?'btn-primary':'btn-outline'}" style="flex:1" onclick="courseState.tab='lessons';navigate('course-detail','${courseId}')">📖 Lessons (${course.lessons.length})</button>
+        <button class="btn btn-sm ${courseState.tab==='quiz'?'btn-primary':'btn-outline'}" style="flex:1" onclick="courseState.tab='quiz';navigate('course-detail','${courseId}')">🧠 Quiz ${quizDone?'✅':''}</button>
+      </div>
+
+      ${courseState.tab === 'lessons' ? `
+        <div class="grid" style="grid-template-columns:200px 1fr;gap:20px">
+          <div class="space-y-sm">
+            ${course.lessons.map((l, i) => `
+              <button onclick="courseState.lessonIdx=${i};navigate('course-detail','${courseId}')" class="btn btn-sm btn-full ${i===courseState.lessonIdx?'btn-primary':'btn-outline'}" style="justify-content:flex-start;text-align:left">
+                ${state.progress.lessonsCompleted.includes(l.id)?'✅':'<span style="color:var(--gray-500)">'+(i+1)+'.</span>'} <span style="margin-left:4px">${l.title}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div class="card">
+            <h2 class="text-lg font-bold mb-4">${lesson.title}</h2>
+            <div style="white-space:pre-line;line-height:1.8;color:var(--gray-700)">${lesson.content}</div>
+            <div class="flex justify-between items-center mt-6">
+              <div>${courseState.lessonIdx > 0 ? `<button class="btn btn-sm btn-outline" onclick="courseState.lessonIdx--;navigate('course-detail','${courseId}')">← Previous</button>` : ''}</div>
+              <div class="flex gap-2">
+                ${!isComplete ? `<button class="btn btn-sm btn-success" onclick="completeLesson('${lesson.id}','${courseId}')">✅ Complete (+25 XP)</button>` : ''}
+                ${courseState.lessonIdx < course.lessons.length - 1 ? `<button class="btn btn-sm btn-primary" onclick="courseState.lessonIdx++;navigate('course-detail','${courseId}')">Next →</button>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      ` : renderQuiz(course)}
+    </div>
+  `;
+}
+
+function completeLesson(lessonId, courseId) {
+  if (!state.progress.lessonsCompleted.includes(lessonId)) {
+    state.progress.lessonsCompleted.push(lessonId);
+    addXP(25);
+  }
+  const course = courses.find(c => c.id === courseId);
+  if (courseState.lessonIdx < course.lessons.length - 1) courseState.lessonIdx++;
+  navigate('course-detail', courseId);
+}
+
+function renderQuiz(course) {
+  const quizDone = state.progress.quizzesCompleted.includes(course.id);
+  if (quizDone && !courseState.quizStarted) {
+    return `<div class="card text-center" style="padding:48px"><div style="font-size:56px;margin-bottom:16px">🎉</div><h2 class="text-xl font-bold">Quiz Completed!</h2><p class="text-gray mt-2">Great job! You've aced this quiz.</p></div>`;
+  }
+  if (!courseState.quizStarted) {
+    const allDone = course.lessons.every(l => state.progress.lessonsCompleted.includes(l.id));
+    return `<div class="card text-center" style="padding:48px"><div style="font-size:56px;margin-bottom:16px">🧠</div><h2 class="text-xl font-bold mb-2">Ready for the Quiz?</h2><p class="text-gray mb-4">Test your knowledge with ${course.quiz.length} questions</p>${!allDone?'<p class="text-sm" style="color:var(--gold-dark);margin-bottom:12px">💡 Complete all lessons first for best results!</p>':''}<button class="btn btn-primary btn-lg" onclick="courseState.quizStarted=true;courseState.quizIdx=0;courseState.quizAnswers=[];courseState.quizScore=null;navigate('course-detail','${course.id}')">Start Quiz 🚀</button></div>`;
+  }
+  if (courseState.quizScore !== null) {
+    const correct = courseState.quizAnswers.filter((a,i) => a === course.quiz[i].answer).length;
+    return `<div class="card text-center" style="padding:48px"><div style="font-size:56px;margin-bottom:16px">${courseState.quizScore>=0.6?'🎉':'💪'}</div><h2 class="text-xl font-bold mb-2">${courseState.quizScore>=0.6?'Great Job!':'Keep Practicing!'}</h2><p style="font-size:36px;font-weight:800;color:var(--primary-dark)">${Math.round(courseState.quizScore*100)}%</p><p class="text-gray mt-2">${correct}/${course.quiz.length} correct</p><p class="text-sm text-success mt-2 font-bold">+${Math.floor(courseState.quizScore*50)} XP earned!</p>${courseState.quizScore<0.6?`<button class="btn btn-primary mt-4" onclick="courseState.quizStarted=true;courseState.quizIdx=0;courseState.quizAnswers=[];courseState.quizScore=null;navigate('course-detail','${course.id}')">Try Again</button>`:''}</div>`;
+  }
+  const q = course.quiz[courseState.quizIdx];
+  return `
+    <div class="card">
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-sm text-gray font-medium">Question ${courseState.quizIdx+1} of ${course.quiz.length}</span>
+        <div class="progress-bar" style="width:120px"><div class="progress-fill" style="width:${((courseState.quizIdx+1)/course.quiz.length)*100}%;background:var(--primary)"></div></div>
+      </div>
+      <h3 class="text-lg font-bold mb-6">${q.q}</h3>
+      <div class="space-y-sm">
+        ${q.options.map((opt, i) => `<button class="quiz-option" onclick="answerQuiz(${i},'${course.id}')">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function answerQuiz(idx, courseId) {
+  const course = courses.find(c => c.id === courseId);
+  courseState.quizAnswers.push(idx);
+  if (courseState.quizIdx < course.quiz.length - 1) {
+    courseState.quizIdx++;
+  } else {
+    const correct = courseState.quizAnswers.filter((a,i) => a === course.quiz[i].answer).length;
+    courseState.quizScore = correct / course.quiz.length;
+    if (!state.progress.quizzesCompleted.includes(courseId)) {
+      state.progress.quizzesCompleted.push(courseId);
+      addXP(Math.floor(courseState.quizScore * 50));
+    }
+    const allDone = course.lessons.every(l => state.progress.lessonsCompleted.includes(l.id));
+    if (allDone && courseState.quizScore >= 0.6 && !state.progress.coursesCompleted.includes(courseId)) {
+      state.progress.coursesCompleted.push(courseId);
+      addXP(100);
+    }
+  }
+  navigate('course-detail', courseId);
+}
+
+
+// ============ GAMES PAGE ============
+function renderGames() {
+  const p = state.progress;
+  return `
+    <div class="page animate-slide-up space-y">
+      <div>
+        <h1 class="text-2xl font-bold">🎮 Board Games</h1>
+        <p class="text-gray mt-2">Learn financial skills through fun, interactive games</p>
+        <div class="flex gap-2 mt-4">
+          <span class="badge badge-primary">🎮 ${p.gamesPlayed} played</span>
+          <span class="badge badge-success">🏆 ${p.gamesWon} wins</span>
+        </div>
+      </div>
+      <div class="grid grid-3">
+        <div class="card card-interactive" onclick="navigate('game-money-trail')">
+          <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px;box-shadow:0 8px 20px rgba(168,85,247,0.3)" class="color-purple">🎲</div>
+          <h3 class="font-bold text-lg mb-2">Money Trail</h3>
+          <p class="text-sm text-gray mb-4">Roll dice and make financial decisions on your path to wealth!</p>
+          <div class="flex gap-2 text-xs text-gray mb-4"><span>👤 1 Player</span><span>⏱ 10-15 min</span></div>
+          <div class="flex gap-2 flex-wrap mb-4">
+            <span class="badge badge-gray">Interest</span><span class="badge badge-gray">Decisions</span><span class="badge badge-gray">Risk</span>
+          </div>
+          <button class="btn btn-primary btn-full btn-sm">Play Now 🎮</button>
+        </div>
+        <div class="card card-interactive" onclick="navigate('game-stock-market')">
+          <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px;box-shadow:0 8px 20px rgba(20,184,166,0.3)" class="color-teal">📊</div>
+          <h3 class="font-bold text-lg mb-2">Stock Market Challenge</h3>
+          <p class="text-sm text-gray mb-4">Buy and sell stocks, react to market news, grow your wealth!</p>
+          <div class="flex gap-2 text-xs text-gray mb-4"><span>👤 1 Player</span><span>⏱ 10-20 min</span></div>
+          <div class="flex gap-2 flex-wrap mb-4">
+            <span class="badge badge-gray">Trading</span><span class="badge badge-gray">Risk</span><span class="badge badge-gray">Analysis</span>
+          </div>
+          <button class="btn btn-primary btn-full btn-sm">Play Now 🎮</button>
+        </div>
+        <div class="card card-interactive" onclick="navigate('game-budget-battle')">
+          <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px;box-shadow:0 8px 20px rgba(244,63,94,0.3)" class="color-rose">⚔️</div>
+          <h3 class="font-bold text-lg mb-2">Budget Battle</h3>
+          <p class="text-sm text-gray mb-4">Manage a monthly budget with unexpected expenses. Can you survive?</p>
+          <div class="flex gap-2 text-xs text-gray mb-4"><span>👤 1 Player</span><span>⏱ 8-12 min</span></div>
+          <div class="flex gap-2 flex-wrap mb-4">
+            <span class="badge badge-gray">Budgeting</span><span class="badge badge-gray">Planning</span><span class="badge badge-gray">Priority</span>
+          </div>
+          <button class="btn btn-primary btn-full btn-sm">Play Now 🎮</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+// ============ MONEY TRAIL GAME ============
+const BOARD_SPACES = [
+  { type:'start', label:'Start', desc:'Begin your journey!', effect:0 },
+  { type:'earn', label:'Part-time Job', desc:'Weekend job pays off!', effect:200 },
+  { type:'choice', label:'Investment Choice', desc:'Invest $100 in stocks or save?', choices:[{label:'Stocks (+$150)',effect:150},{label:'Bank (+$50)',effect:50}] },
+  { type:'expense', label:'Phone Bill', desc:'Monthly bill due', effect:-50 },
+  { type:'earn', label:'Birthday Money', desc:'Grandma is generous!', effect:100 },
+  { type:'choice', label:'Spending Decision', desc:'Friends invite you out.', choices:[{label:'Go out (-$80)',effect:-80},{label:'Stay home (free)',effect:0}] },
+  { type:'earn', label:'Compound Interest', desc:'Savings earned interest!', effect:75 },
+  { type:'expense', label:'Emergency!', desc:'Laptop broke!', effect:-200 },
+  { type:'choice', label:'Side Hustle', desc:'Earn extra money!', choices:[{label:'Tutor (+$120)',effect:120},{label:'Mow lawns (+$90)',effect:90}] },
+  { type:'earn', label:'Tax Refund', desc:'Got money back!', effect:150 },
+  { type:'expense', label:'Subscription Trap', desc:'Forgot to cancel!', effect:-30 },
+  { type:'choice', label:'Big Purchase', desc:'Need new device.', choices:[{label:'New (-$500)',effect:-500},{label:'Refurbished (-$250)',effect:-250}] },
+  { type:'earn', label:'Freelance Gig', desc:'Designed a logo!', effect:200 },
+  { type:'earn', label:'Stock Dividend', desc:'Investment paid off!', effect:80 },
+  { type:'choice', label:'Savings Choice', desc:'Save or spend?', choices:[{label:'Save (+$220 later)',effect:220},{label:'Spend (-$200)',effect:-200}] },
+  { type:'finish', label:'Financial Freedom!', desc:'You reached the goal!', effect:500 },
+];
+
+let mtState = { pos:0, money:500, dice:null, showChoice:false, gameOver:false, history:[], rolling:false };
+
+function renderMoneyTrail() {
+  const s = mtState; const space = BOARD_SPACES[s.pos];
+  return `
+    <div class="page animate-slide-up space-y">
+      <a style="cursor:pointer;color:var(--gray-500)" onclick="navigate('games')">← Back to Games</a>
+      <div style="border-radius:var(--radius);padding:24px;color:white" class="color-purple">
+        <h1 class="text-xl font-bold">🎲 Money Trail</h1>
+        <p style="opacity:0.85">Navigate financial decisions on your path to wealth!</p>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr 250px;gap:20px">
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <div class="flex gap-3">
+              <div style="background:var(--success-light);padding:8px 16px;border-radius:10px">
+                <div class="text-xs text-gray">Balance</div>
+                <div class="font-bold ${s.money>=500?'text-success':'text-danger'}" style="font-size:18px">$${s.money.toLocaleString()}</div>
+              </div>
+              <div style="background:var(--accent-light);padding:8px 16px;border-radius:10px">
+                <div class="text-xs text-gray">Position</div>
+                <div class="font-bold" style="font-size:18px;color:var(--accent-dark)">${s.pos+1}/${BOARD_SPACES.length}</div>
+              </div>
+            </div>
+            ${s.dice?`<div style="font-size:32px" class="animate-bounce">🎲 ${s.dice}</div>`:''}
+          </div>
+          <div class="board-grid mb-4">
+            ${BOARD_SPACES.map((sp,i) => `<div class="board-cell ${i===s.pos?'current':i<s.pos?'visited':''}">${i===s.pos?'📍':''}<div style="font-size:10px;font-weight:600">${sp.label}</div></div>`).join('')}
+          </div>
+          ${!s.gameOver?`
+            <div style="background:var(--gray-50);padding:16px;border-radius:10px;margin-bottom:16px">
+              <div class="font-bold">${space.label}</div>
+              <div class="text-sm text-gray">${space.desc}</div>
+              ${space.effect&&!s.showChoice&&space.type!=='choice'?`<div class="font-bold text-sm mt-2 ${space.effect>0?'text-success':'text-danger'}">${space.effect>0?'+':''}$${space.effect}</div>`:''}
+            </div>
+            ${s.showChoice&&space.choices?`
+              <div class="space-y-sm mb-4"><p class="font-medium text-sm">Make your choice:</p>
+              ${space.choices.map((ch,i) => `<button class="quiz-option" onclick="mtChoice(${i})">${ch.label}</button>`).join('')}</div>
+            `:''}
+            ${!s.showChoice?`<button class="btn btn-primary btn-full" onclick="mtRoll()" ${s.rolling?'disabled':''}>🎲 ${s.rolling?'Rolling...':'Roll Dice'}</button>`:''}
+          `:`
+            <div class="text-center" style="padding:32px">
+              <div style="font-size:48px;margin-bottom:12px">${s.money>500?'🎉':'💪'}</div>
+              <h2 class="text-xl font-bold mb-2">${s.money>500?'You grew your wealth!':'Room for improvement!'}</h2>
+              <p style="font-size:28px;font-weight:800;color:var(--primary-dark)">$${s.money.toLocaleString()}</p>
+              <p class="text-sm text-gray mt-2">${s.money>500?'Profit: +$'+(s.money-500):'Loss: -$'+(500-s.money)}</p>
+              <button class="btn btn-primary mt-4" onclick="mtReset()">Play Again 🔄</button>
+            </div>
+          `}
+        </div>
+        <div class="card" style="max-height:400px;overflow-y:auto">
+          <h3 class="font-bold mb-4">📋 History</h3>
+          ${s.history.length===0?'<p class="text-sm text-gray">Roll to start!</p>':
+          s.history.map(h=>`<div style="padding:8px;background:var(--gray-50);border-radius:8px;margin-bottom:6px"><div class="text-sm font-medium">${h.label}</div>${h.choice?`<div class="text-xs text-gray">${h.choice}</div>`:''}<div class="text-sm font-bold ${h.effect>=0?'text-success':'text-danger'}">${h.effect>=0?'+':''}$${h.effect}</div></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function mtRoll() {
+  mtState.rolling = true; renderPage();
+  setTimeout(() => {
+    const roll = Math.floor(Math.random()*3)+1;
+    mtState.dice = roll;
+    mtState.pos = Math.min(mtState.pos + roll, BOARD_SPACES.length-1);
+    const space = BOARD_SPACES[mtState.pos];
+    mtState.rolling = false;
+    if (space.type === 'choice') { mtState.showChoice = true; }
+    else {
+      mtState.money += space.effect;
+      mtState.history.push({label:space.label, effect:space.effect});
+      if (mtState.pos >= BOARD_SPACES.length-1) { mtState.gameOver = true; state.progress.gamesPlayed++; if(mtState.money>500){state.progress.gamesWon++;} state.progress.totalMoneyEarned+=Math.max(0,mtState.money); addXP(mtState.money>500?75:30); checkBadges(); }
+    }
+    renderPage();
+  }, 600);
+}
+
+function mtChoice(idx) {
+  const space = BOARD_SPACES[mtState.pos];
+  const choice = space.choices[idx];
+  mtState.money += choice.effect;
+  mtState.history.push({label:space.label, effect:choice.effect, choice:choice.label});
+  mtState.showChoice = false;
+  if (mtState.pos >= BOARD_SPACES.length-1) { mtState.gameOver = true; state.progress.gamesPlayed++; if(mtState.money>500){state.progress.gamesWon++;} state.progress.totalMoneyEarned+=Math.max(0,mtState.money); addXP(mtState.money>500?75:30); checkBadges(); }
+  renderPage();
+}
+
+function mtReset() { mtState = { pos:0, money:500, dice:null, showChoice:false, gameOver:false, history:[], rolling:false }; renderPage(); }
+
+
+// ============ STOCK MARKET GAME ============
+const STOCKS_INIT = [
+  {id:'TECH',name:'TechCorp',price:50,owned:0},
+  {id:'FOOD',name:'FoodKing',price:30,owned:0},
+  {id:'BANK',name:'SafeBank',price:80,owned:0},
+  {id:'GREEN',name:'EcoEnergy',price:40,owned:0},
+  {id:'GAME',name:'GameZone',price:25,owned:0},
+];
+const SM_NEWS = [
+  {text:'📱 TechCorp releases revolutionary product!',effects:{TECH:20,GAME:5}},
+  {text:'🍔 FoodKing expands globally!',effects:{FOOD:15}},
+  {text:'📉 Inflation fears hit the market!',effects:{TECH:-15,FOOD:-5,BANK:-10,GREEN:-8,GAME:-12}},
+  {text:'🌱 Green energy subsidies announced!',effects:{GREEN:25}},
+  {text:'🎮 GameZone stock surges on launch!',effects:{GAME:18,TECH:5}},
+  {text:'🏦 Interest rates increase!',effects:{BANK:15,TECH:-8,GREEN:-5}},
+  {text:'📈 Bull market! Everything up!',effects:{TECH:10,FOOD:8,BANK:12,GREEN:10,GAME:10}},
+  {text:'⚠️ Supply chain issues!',effects:{TECH:-12,FOOD:-8,GREEN:-10}},
+  {text:'🎯 GameZone reports record losses!',effects:{GAME:-20}},
+  {text:'💚 Climate conference boosts renewables!',effects:{GREEN:20,TECH:5}},
+  {text:'🏛️ New banking regulations!',effects:{BANK:-10,TECH:3}},
+  {text:'🎬 FoodKing celebrity endorsement!',effects:{FOOD:12}},
+];
+
+let smState = { cash:1000, stocks:JSON.parse(JSON.stringify(STOCKS_INIT)), round:1, maxRounds:10, news:null, gameOver:false };
+
+function smPortfolio() { return smState.stocks.reduce((s,st)=>s+st.price*st.owned,0)+smState.cash; }
+
+function renderStockMarket() {
+  const s = smState; const portfolio = smPortfolio(); const profit = portfolio - 1000;
+  return `
+    <div class="page animate-slide-up space-y">
+      <a style="cursor:pointer;color:var(--gray-500)" onclick="navigate('games')">← Back to Games</a>
+      <div style="border-radius:var(--radius);padding:24px;color:white" class="color-teal">
+        <h1 class="text-xl font-bold">📊 Stock Market Challenge</h1>
+        <p style="opacity:0.85">Buy low, sell high! Grow your $1,000 over ${s.maxRounds} rounds.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Cash</div><div class="font-bold text-success" style="font-size:18px">$${s.cash.toLocaleString()}</div></div>
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Portfolio</div><div class="font-bold text-primary" style="font-size:18px">$${portfolio.toLocaleString()}</div></div>
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Profit/Loss</div><div class="font-bold ${profit>=0?'text-success':'text-danger'}" style="font-size:18px">${profit>=0?'+':''}$${profit}</div></div>
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Round</div><div class="font-bold" style="font-size:18px">${s.round}/${s.maxRounds}</div></div>
+      </div>
+      ${s.news?`<div class="card" style="background:var(--gold-light);border-color:#fde68a"><span class="text-sm font-medium" style="color:var(--gold-dark)">📰 Market News:</span><p class="font-medium mt-2">${s.news}</p></div>`:''}
+      ${!s.gameOver?`
+        <div class="card" style="overflow-x:auto">
+          <table class="stock-table">
+            <thead><tr><th>Stock</th><th>Price</th><th>Owned</th><th>Value</th><th>Actions</th></tr></thead>
+            <tbody>
+              ${s.stocks.map(st=>`<tr>
+                <td><span class="font-bold">${st.id}</span><br><span class="text-xs text-gray">${st.name}</span></td>
+                <td class="font-medium">$${st.price}</td>
+                <td>${st.owned}</td>
+                <td class="text-primary font-medium">$${(st.price*st.owned).toLocaleString()}</td>
+                <td><div class="flex gap-2">
+                  <button class="btn btn-sm btn-success" onclick="smBuy('${st.id}')" ${s.cash<st.price?'disabled':''}>Buy</button>
+                  <button class="btn btn-sm" style="background:var(--danger-light);color:var(--danger)" onclick="smSell('${st.id}')" ${st.owned<1?'disabled':''}>Sell</button>
+                </div></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="smNextRound()">Next Round (${s.maxRounds-s.round} left) ⏭️</button>
+      `:`
+        <div class="card text-center" style="padding:48px">
+          <div style="font-size:48px;margin-bottom:12px">${profit>0?'🎉📈':'📉💪'}</div>
+          <h2 class="text-xl font-bold mb-2">${profit>0?'Smart Investor!':'Market is tough!'}</h2>
+          <p style="font-size:28px;font-weight:800;color:var(--primary-dark)">$${portfolio.toLocaleString()}</p>
+          <p class="font-medium mt-2 ${profit>=0?'text-success':'text-danger'}">${profit>=0?'+$'+profit+' profit':'-$'+Math.abs(profit)+' loss'}</p>
+          <p class="text-sm text-gray mt-2">${profit>200?'Incredible trading skills!':profit>0?'You beat the market!':'Keep learning, the market rewards patience.'}</p>
+          <button class="btn btn-primary mt-4" onclick="smReset()">Play Again 🔄</button>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function smBuy(id) { const st=smState.stocks.find(s=>s.id===id); if(smState.cash>=st.price){smState.cash-=st.price;st.owned++;} renderPage(); }
+function smSell(id) { const st=smState.stocks.find(s=>s.id===id); if(st.owned>0){smState.cash+=st.price;st.owned--;} renderPage(); }
+
+function smNextRound() {
+  const event = SM_NEWS[Math.floor(Math.random()*SM_NEWS.length)];
+  smState.news = event.text;
+  smState.stocks.forEach(st => {
+    const effect = event.effects[st.id] || Math.floor(Math.random()*10)-5;
+    st.price = Math.max(5, st.price + effect);
+  });
+  if (smState.round >= smState.maxRounds) {
+    smState.gameOver = true;
+    const profit = smPortfolio() - 1000;
+    state.progress.gamesPlayed++; if(profit>0) state.progress.gamesWon++;
+    state.progress.totalMoneyEarned += Math.max(0, smPortfolio());
+    addXP(profit>0?75:30); checkBadges();
+  } else { smState.round++; }
+  renderPage();
+}
+
+function smReset() { smState = { cash:1000, stocks:JSON.parse(JSON.stringify(STOCKS_INIT)), round:1, maxRounds:10, news:null, gameOver:false }; renderPage(); }
+
+
+// ============ BUDGET BATTLE GAME ============
+const BB_INCOME = 2000;
+const BB_FIXED = [{name:'Rent',amt:600},{name:'Phone',amt:50},{name:'Transport',amt:100},{name:'Groceries',amt:200}];
+const BB_EVENTS = [
+  [{text:'Friend invites you to a concert!',opts:[{label:'Go (-$80)',cost:80},{label:'Skip (free)',cost:0}]},{text:'Great sale on winter clothes!',opts:[{label:'Buy essentials (-$60)',cost:60},{label:'Buy everything (-$150)',cost:150},{label:'Skip (free)',cost:0}]}],
+  [{text:'Car needs unexpected repairs!',opts:[{label:'Mechanic (-$300)',cost:300},{label:'DIY fix (-$80)',cost:80}]},{text:'You find a freelance gig!',opts:[{label:'Take it (+$200)',cost:-200},{label:'Too busy (free)',cost:0}]}],
+  [{text:'Food delivery apps tempting...',opts:[{label:'Order in (-$45)',cost:45},{label:'Cook home (-$15)',cost:15}]},{text:'Online course on sale!',opts:[{label:'Buy it (-$30)',cost:30},{label:'Skip (free)',cost:0}]}],
+  [{text:'End of month bonus!',opts:[{label:'Sweet! (+$150)',cost:-150}]},{text:'Subscription renewal time.',opts:[{label:'Keep all (-$50)',cost:50},{label:'Cancel extras (-$15)',cost:15}]}],
+];
+const BB_START = BB_INCOME - BB_FIXED.reduce((s,e)=>s+e.amt,0);
+
+let bbState = { week:0, eventIdx:0, balance:BB_START, savings:0, decisions:[], gameOver:false, savingsPrompt:false };
+
+function renderBudgetBattle() {
+  const s = bbState;
+  const events = BB_EVENTS[s.week]; const event = events?events[s.eventIdx]:null;
+  return `
+    <div class="page animate-slide-up space-y">
+      <a style="cursor:pointer;color:var(--gray-500)" onclick="navigate('games')">← Back to Games</a>
+      <div style="border-radius:var(--radius);padding:24px;color:white" class="color-rose">
+        <h1 class="text-xl font-bold">⚔️ Budget Battle</h1>
+        <p style="opacity:0.85">Manage your budget through 4 weeks of financial decisions!</p>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Spending</div><div class="font-bold ${s.balance>=0?'text-success':'text-danger'}" style="font-size:18px">$${s.balance}</div></div>
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Savings</div><div class="font-bold text-primary" style="font-size:18px">$${s.savings}</div></div>
+        <div class="card text-center" style="padding:12px"><div class="text-xs text-gray">Week</div><div class="font-bold" style="font-size:18px">${s.week+1}/4</div></div>
+      </div>
+      <div class="card">
+        <h3 class="font-bold mb-4">📋 Monthly Budget</h3>
+        <div class="grid grid-2" style="gap:8px">
+          <div style="background:var(--success-light);padding:8px 12px;border-radius:8px" class="flex justify-between"><span class="text-sm">Income</span><span class="text-sm font-bold text-success">+$${BB_INCOME}</span></div>
+          ${BB_FIXED.map(e=>`<div style="background:var(--danger-light);padding:8px 12px;border-radius:8px" class="flex justify-between"><span class="text-sm">${e.name}</span><span class="text-sm font-bold text-danger">-$${e.amt}</span></div>`).join('')}
+          <div style="background:var(--accent-light);padding:8px 12px;border-radius:8px;grid-column:span 2" class="flex justify-between font-bold"><span>Available</span><span style="color:var(--accent-dark)">$${BB_START}</span></div>
+        </div>
+      </div>
+      ${!s.gameOver && !s.savingsPrompt && event ? `
+        <div class="card">
+          <div class="flex gap-2 mb-4"><span class="badge badge-primary">Week ${s.week+1}</span><span class="badge badge-gray">Event ${s.eventIdx+1}/${events.length}</span></div>
+          <h3 class="font-bold text-lg mb-4">${event.text}</h3>
+          <div class="space-y-sm">${event.opts.map((opt,i)=>`<button class="quiz-option" onclick="bbChoice(${i})" ${s.balance<opt.cost&&opt.cost>0?'disabled':''}>${opt.label}</button>`).join('')}</div>
+        </div>
+      `:''}
+      ${s.savingsPrompt && !s.gameOver ? `
+        <div class="card text-center" style="padding:32px">
+          <div style="font-size:48px;margin-bottom:12px">🐷</div>
+          <h3 class="font-bold text-lg mb-2">End of Week ${s.week+1} - Save Money?</h3>
+          <p class="text-gray mb-4">You have $${s.balance}. How much to save?</p>
+          <input type="number" id="bbSaveInput" min="0" max="${s.balance}" placeholder="0" style="width:120px;text-align:center;font-size:18px;font-weight:700;margin-bottom:16px">
+          <br><button class="btn btn-success" onclick="bbSave()">Save & Continue →</button>
+        </div>
+      `:''}
+      ${s.gameOver ? `
+        <div class="card text-center" style="padding:48px">
+          <div style="font-size:48px;margin-bottom:12px">${s.savings>200?'🏆':s.savings>0?'👍':'💪'}</div>
+          <h2 class="text-xl font-bold mb-2">${s.savings>200?'Budget Master!':s.savings>0?'Good Job!':'Keep Practicing!'}</h2>
+          <div class="grid grid-2 mt-4 mb-4" style="max-width:240px;margin-left:auto;margin-right:auto">
+            <div style="background:var(--success-light);padding:12px;border-radius:10px"><div class="text-xs text-gray">Saved</div><div class="font-bold text-success" style="font-size:20px">$${s.savings}</div></div>
+            <div style="background:var(--primary-light);padding:12px;border-radius:10px"><div class="text-xs text-gray">Left</div><div class="font-bold text-primary" style="font-size:20px">$${s.balance}</div></div>
+          </div>
+          <p class="text-sm text-gray">${s.savings>200?'Amazing! 20%+ saved!':s.savings>100?'Great budgeting!':'Try saving more next time!'}</p>
+          <button class="btn btn-primary mt-4" onclick="bbReset()">Play Again 🔄</button>
+        </div>
+      `:''}
+      ${s.decisions.length>0?`
+        <div class="card"><h3 class="font-bold mb-4">📜 Decisions</h3><div style="max-height:180px;overflow-y:auto" class="space-y-sm">
+          ${s.decisions.map(d=>`<div class="flex justify-between items-center" style="padding:8px;background:var(--gray-50);border-radius:8px"><div><span class="badge badge-gray text-xs">W${d.week}</span> <span class="text-sm">${d.label}</span></div><span class="font-bold text-sm ${d.cost>0?'text-danger':'text-success'}">${d.cost>0?'-$'+d.cost:d.cost<0?'+$'+Math.abs(d.cost):'Free'}</span></div>`).join('')}
+        </div></div>
+      `:''}
+    </div>
+  `;
+}
+
+function bbChoice(idx) {
+  const events = BB_EVENTS[bbState.week]; const event = events[bbState.eventIdx];
+  const opt = event.opts[idx];
+  bbState.balance -= opt.cost;
+  bbState.decisions.push({week:bbState.week+1,label:opt.label,cost:opt.cost});
+  if (bbState.eventIdx < events.length-1) { bbState.eventIdx++; }
+  else { bbState.savingsPrompt = true; }
+  renderPage();
+}
+
+function bbSave() {
+  const input = document.getElementById('bbSaveInput');
+  const amount = Math.min(Math.max(0, parseInt(input.value)||0), bbState.balance);
+  bbState.savings += amount; bbState.balance -= amount;
+  bbState.savingsPrompt = false;
+  if (bbState.week >= 3) {
+    bbState.gameOver = true;
+    state.progress.gamesPlayed++; if(bbState.savings>100) state.progress.gamesWon++;
+    state.progress.totalMoneyEarned += bbState.savings;
+    addXP(bbState.savings>200?75:30); checkBadges();
+  } else { bbState.week++; bbState.eventIdx=0; }
+  renderPage();
+}
+
+function bbReset() { bbState = { week:0, eventIdx:0, balance:BB_START, savings:0, decisions:[], gameOver:false, savingsPrompt:false }; renderPage(); }
+
+
+// ============ CALCULATOR / TOOLS ============
+let calcTab = 'compound';
+let ciVals = {principal:1000,rate:7,years:10,compound:12};
+let loanVals = {amount:10000,rate:5,years:5};
+
+function renderCalculator() {
+  return `
+    <div class="page animate-slide-up space-y">
+      <div>
+        <h1 class="text-2xl font-bold">🧮 Financial Tools</h1>
+        <p class="text-gray mt-2">Interactive calculators to plan your finances</p>
+      </div>
+      <div class="flex gap-2" style="background:var(--gray-100);padding:4px;border-radius:var(--radius-sm)">
+        <button class="btn btn-sm ${calcTab==='compound'?'btn-primary':'btn-outline'}" style="flex:1" onclick="calcTab='compound';renderPage()">📈 Compound Interest</button>
+        <button class="btn btn-sm ${calcTab==='loan'?'btn-primary':'btn-outline'}" style="flex:1" onclick="calcTab='loan';renderPage()">🏦 Loan Calculator</button>
+        <button class="btn btn-sm ${calcTab==='budget'?'btn-primary':'btn-outline'}" style="flex:1" onclick="calcTab='budget';renderPage()">💰 Budget Planner</button>
+      </div>
+      ${calcTab==='compound'?renderCompoundCalc():''}
+      ${calcTab==='loan'?renderLoanCalc():''}
+      ${calcTab==='budget'?renderBudgetCalc():''}
+    </div>
+  `;
+}
+
+function renderCompoundCalc() {
+  const {principal,rate,years,compound} = ciVals;
+  const A = principal * Math.pow(1 + rate/100/compound, compound*years);
+  const interest = A - principal;
+  const bars = [];
+  for (let y=0; y<=years; y+=Math.max(1,Math.floor(years/8))) {
+    bars.push({year:y, amount: principal*Math.pow(1+rate/100/compound, compound*y)});
+  }
+  if (bars[bars.length-1].year !== years) bars.push({year:years,amount:A});
+  const maxAmt = bars[bars.length-1].amount;
+
+  return `
+    <div class="grid grid-2">
+      <div class="card">
+        <h2 class="font-bold text-lg mb-4">📈 Compound Interest</h2>
+        <div class="space-y">
+          <div><label class="text-sm font-medium">Starting Amount ($)</label><input type="number" value="${principal}" onchange="ciVals.principal=+this.value;renderPage()"></div>
+          <div><label class="text-sm font-medium">Annual Rate (%): ${rate}%</label><input type="range" min="1" max="20" value="${rate}" oninput="ciVals.rate=+this.value;renderPage()"></div>
+          <div><label class="text-sm font-medium">Years: ${years}</label><input type="range" min="1" max="50" value="${years}" oninput="ciVals.years=+this.value;renderPage()"></div>
+          <div><label class="text-sm font-medium">Compounding</label><select onchange="ciVals.compound=+this.value;renderPage()"><option value="1" ${compound===1?'selected':''}>Annually</option><option value="4" ${compound===4?'selected':''}>Quarterly</option><option value="12" ${compound===12?'selected':''}>Monthly</option><option value="365" ${compound===365?'selected':''}>Daily</option></select></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="font-bold text-lg mb-4">Results</h3>
+        <div class="grid grid-2" style="gap:12px;margin-bottom:20px">
+          <div style="background:var(--success-light);padding:14px;border-radius:12px;text-align:center"><div class="text-xs text-gray">Final Amount</div><div class="font-bold text-success" style="font-size:20px">$${A.toLocaleString(undefined,{maximumFractionDigits:2})}</div></div>
+          <div style="background:var(--accent-light);padding:14px;border-radius:12px;text-align:center"><div class="text-xs text-gray">Interest Earned</div><div class="font-bold" style="font-size:20px;color:var(--accent-dark)">$${interest.toLocaleString(undefined,{maximumFractionDigits:2})}</div></div>
+        </div>
+        <h4 class="text-sm font-medium text-gray mb-2">Growth Over Time</h4>
+        <div class="space-y-sm">
+          ${bars.map(b=>`<div class="flex items-center gap-2"><span class="text-xs text-gray" style="width:32px">Y${b.year}</span><div style="flex:1;background:var(--gray-100);border-radius:99px;height:14px"><div style="height:14px;border-radius:99px;width:${(b.amount/maxAmt*100)}%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.3s"></div></div><span class="text-xs font-medium" style="width:70px;text-align:right">$${b.amount.toLocaleString(undefined,{maximumFractionDigits:0})}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderLoanCalc() {
+  const {amount,rate,years} = loanVals;
+  const mr = rate/100/12; const n = years*12;
+  const mp = amount*(mr*Math.pow(1+mr,n))/(Math.pow(1+mr,n)-1);
+  const total = mp*n; const interest = total - amount;
+  const pctPrincipal = (amount/total*100).toFixed(0);
+
+  return `
+    <div class="grid grid-2">
+      <div class="card">
+        <h2 class="font-bold text-lg mb-4">🏦 Loan Calculator</h2>
+        <div class="space-y">
+          <div><label class="text-sm font-medium">Loan Amount ($)</label><input type="number" value="${amount}" onchange="loanVals.amount=+this.value;renderPage()"></div>
+          <div><label class="text-sm font-medium">Interest Rate (%): ${rate}%</label><input type="range" min="1" max="30" step="0.5" value="${rate}" oninput="loanVals.rate=+this.value;renderPage()"></div>
+          <div><label class="text-sm font-medium">Loan Term: ${years} years</label><input type="range" min="1" max="30" value="${years}" oninput="loanVals.years=+this.value;renderPage()"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="font-bold text-lg mb-4">Loan Summary</h3>
+        <div style="background:var(--primary-light);padding:20px;border-radius:12px;text-align:center;margin-bottom:16px">
+          <div class="text-sm text-gray">Monthly Payment</div>
+          <div class="font-bold text-primary" style="font-size:28px">$${mp.toLocaleString(undefined,{maximumFractionDigits:2})}</div>
+        </div>
+        <div class="grid grid-2" style="gap:12px;margin-bottom:16px">
+          <div style="background:var(--gray-50);padding:12px;border-radius:10px;text-align:center"><div class="text-xs text-gray">Total Paid</div><div class="font-bold" style="font-size:16px">$${total.toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+          <div style="background:var(--danger-light);padding:12px;border-radius:10px;text-align:center"><div class="text-xs text-gray">Total Interest</div><div class="font-bold text-danger" style="font-size:16px">$${interest.toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+        </div>
+        <div class="text-sm font-medium text-gray mb-2">Payment Breakdown</div>
+        <div class="flex" style="border-radius:99px;overflow:hidden;height:24px">
+          <div style="width:${pctPrincipal}%;background:var(--primary);display:flex;align-items:center;justify-content:center"><span class="text-xs" style="color:white;font-weight:600">Principal</span></div>
+          <div style="width:${100-pctPrincipal}%;background:var(--danger);display:flex;align-items:center;justify-content:center"><span class="text-xs" style="color:white;font-weight:600">Interest</span></div>
+        </div>
+        <div style="background:var(--gold-light);padding:12px;border-radius:10px;margin-top:16px" class="text-sm">
+          💡 <b>Tip:</b> Paying even a little extra each month saves thousands in interest!
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderBudgetCalc() {
+  return `
+    <div class="grid grid-2">
+      <div class="card">
+        <h2 class="font-bold text-lg mb-4">💰 Quick Budget Planner</h2>
+        <div class="space-y">
+          <div><label class="text-sm font-medium">Monthly Income ($)</label><input type="number" id="budgetIncome" value="2000" onchange="updateBudgetCalc()"></div>
+          <div><label class="text-sm font-medium">Housing ($)</label><input type="number" id="budgetHousing" value="600" onchange="updateBudgetCalc()"></div>
+          <div><label class="text-sm font-medium">Food ($)</label><input type="number" id="budgetFood" value="300" onchange="updateBudgetCalc()"></div>
+          <div><label class="text-sm font-medium">Transport ($)</label><input type="number" id="budgetTransport" value="100" onchange="updateBudgetCalc()"></div>
+          <div><label class="text-sm font-medium">Phone/Internet ($)</label><input type="number" id="budgetPhone" value="80" onchange="updateBudgetCalc()"></div>
+          <div><label class="text-sm font-medium">Entertainment ($)</label><input type="number" id="budgetFun" value="150" onchange="updateBudgetCalc()"></div>
+          <div><label class="text-sm font-medium">Other ($)</label><input type="number" id="budgetOther" value="100" onchange="updateBudgetCalc()"></div>
+        </div>
+      </div>
+      <div class="card" id="budgetResults">
+        <h3 class="font-bold text-lg mb-4">Budget Summary</h3>
+        <div id="budgetSummary"></div>
+      </div>
+    </div>
+  `;
+}
+
+function updateBudgetCalc() {
+  const income = +(document.getElementById('budgetIncome')?.value||2000);
+  const expenses = ['budgetHousing','budgetFood','budgetTransport','budgetPhone','budgetFun','budgetOther'].reduce((s,id)=>s+(+(document.getElementById(id)?.value||0)),0);
+  const remaining = income - expenses;
+  const rate = income>0?((remaining/income)*100).toFixed(1):0;
+  const el = document.getElementById('budgetSummary');
+  if(!el) return;
+  el.innerHTML = `
+    <div style="background:${remaining>=0?'var(--success-light)':'var(--danger-light)'};padding:20px;border-radius:12px;text-align:center;margin-bottom:16px">
+      <div class="text-sm text-gray">Money Left Over</div>
+      <div class="font-bold ${remaining>=0?'text-success':'text-danger'}" style="font-size:28px">$${remaining.toLocaleString()}</div>
+      <div class="text-sm text-gray mt-2">Savings Rate: ${rate}%</div>
+    </div>
+    <div style="background:var(--primary-light);padding:12px;border-radius:10px" class="text-sm">
+      <p class="font-medium" style="color:var(--primary-dark)">💡 50/30/20 Rule:</p>
+      <p style="color:var(--gray-700);margin-top:4px">${rate>=20?'✅ Great! You can save 20% or more!':'⚠️ Try to save at least $'+(income*0.2).toFixed(0)+' (20%)'}</p>
+    </div>
+  `;
+}
+
+
+// ============ PROGRESS PAGE ============
+function renderProgress() {
+  const p = state.progress;
+  const xpProgress = (p.xp % 100) / 100 * 100;
+  const xpToNext = 100 - (p.xp % 100);
+  return `
+    <div class="page animate-slide-up space-y">
+      <div>
+        <h1 class="text-2xl font-bold">🏆 Your Progress</h1>
+        <p class="text-gray mt-2">Track your financial literacy journey</p>
+      </div>
+
+      <div class="card" style="background:linear-gradient(135deg,var(--primary-light),var(--accent-light));border-color:var(--primary)">
+        <div class="flex items-center gap-6">
+          <div style="width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-weight:800;box-shadow:0 8px 24px rgba(14,165,233,0.3)">${p.level}</div>
+          <div style="flex:1">
+            <h2 class="font-bold text-lg">Level ${p.level}</h2>
+            <p class="text-sm text-gray">${p.xp} total XP earned</p>
+            <div class="progress-bar mt-2"><div class="progress-fill" style="width:${xpProgress}%;background:linear-gradient(90deg,var(--primary),var(--accent))"></div></div>
+            <p class="text-xs text-gray mt-2">${xpToNext} XP to Level ${p.level+1}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card text-center"><div style="font-size:28px;margin-bottom:8px">📚</div><div style="font-size:22px;font-weight:700">${p.lessonsCompleted.length}</div><div class="text-xs text-gray">Lessons</div></div>
+        <div class="card text-center"><div style="font-size:28px;margin-bottom:8px">🧠</div><div style="font-size:22px;font-weight:700">${p.quizzesCompleted.length}</div><div class="text-xs text-gray">Quizzes</div></div>
+        <div class="card text-center"><div style="font-size:28px;margin-bottom:8px">🎮</div><div style="font-size:22px;font-weight:700">${p.gamesPlayed}</div><div class="text-xs text-gray">Games</div></div>
+        <div class="card text-center"><div style="font-size:28px;margin-bottom:8px">🏆</div><div style="font-size:22px;font-weight:700">${p.gamesWon}</div><div class="text-xs text-gray">Wins</div></div>
+      </div>
+
+      <div class="card">
+        <h2 class="font-bold text-lg mb-4">🎖️ Badges (${p.badges.length}/${BADGES.length})</h2>
+        <div class="grid grid-4" style="gap:12px">
+          ${BADGES.map(badge => {
+            const earned = p.badges.includes(badge.id);
+            return `<div style="padding:16px;border-radius:12px;border:2px solid ${earned?'var(--gold)':'var(--gray-200)'};background:${earned?'var(--gold-light)':'var(--gray-50)'};text-align:center;${earned?'':'opacity:0.5'}">
+              <div style="font-size:28px;margin-bottom:6px;${earned?'':'filter:grayscale(100%)'}">${badge.icon}</div>
+              <div class="text-sm font-medium">${badge.name}</div>
+              <div class="text-xs text-gray mt-2">${badge.desc}</div>
+              ${earned?'<div class="badge badge-gold text-xs mt-2">Earned!</div>':''}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="font-bold text-lg mb-4">🎓 Courses Completed</h2>
+        ${p.coursesCompleted.length===0?'<p class="text-gray text-center" style="padding:16px">No courses completed yet. Start learning!</p>':
+        `<div class="flex gap-2 flex-wrap">${p.coursesCompleted.map(id=>`<span class="badge badge-success">${id.replace(/-/g,' ')}</span>`).join('')}</div>`}
+      </div>
+    </div>
+  `;
+}
+
+// ============ INIT ============
+navigate('home');
+
+// Update budget calc after render
+const observer = new MutationObserver(() => {
+  if (calcTab === 'budget' && document.getElementById('budgetIncome')) {
+    updateBudgetCalc();
+  }
+});
+observer.observe(document.getElementById('app'), { childList: true, subtree: true });
+  </script>
+</body>
+</html>
