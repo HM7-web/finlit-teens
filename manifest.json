@@ -1,0 +1,32 @@
+{
+  "name": "FinLit Teens - Master Your Money",
+  "short_name": "FinLit Teens",
+  "description": "Financial literacy app for teens with interactive courses and board games",
+  "start_url": "/finlit-teens/",
+  "scope": "/finlit-teens/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f9fafb",
+  "theme_color": "#0ea5e9",
+  "categories": ["education", "finance"],
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

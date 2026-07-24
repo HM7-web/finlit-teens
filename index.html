@@ -2,8 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FinLit Teens - Master Your Money</title>
+
+  <!-- PWA Meta Tags -->
+  <meta name="description" content="Financial literacy app for teens with interactive courses and board games">
+  <meta name="theme-color" content="#0ea5e9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FinLit Teens">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="FinLit Teens">
+  <meta name="msapplication-TileColor" content="#0ea5e9">
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon-192.svg">
+  <link rel="apple-touch-icon" href="icon-192.svg">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -1177,6 +1192,51 @@ const observer = new MutationObserver(() => {
   }
 });
 observer.observe(document.getElementById('app'), { childList: true, subtree: true });
+
+// ============ SERVICE WORKER REGISTRATION ============
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then((reg) => console.log('SW registered:', reg.scope))
+      .catch((err) => console.log('SW registration failed:', err));
+  });
+}
+
+// ============ PWA INSTALL PROMPT ============
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install banner
+  const banner = document.createElement('div');
+  banner.id = 'installBanner';
+  banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--primary-dark),var(--accent-dark));color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,0.2);';
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:24px">📱</span>
+      <div>
+        <p style="font-weight:700;font-size:14px">Install FinLit Teens</p>
+        <p style="font-size:12px;opacity:0.85">Add to your home screen for the best experience!</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button onclick="document.getElementById('installBanner').remove()" style="padding:8px 16px;border:1px solid rgba(255,255,255,0.5);background:transparent;color:white;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600">Later</button>
+      <button onclick="installApp()" style="padding:8px 16px;background:white;color:var(--primary-dark);border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700">Install</button>
+    </div>
+  `;
+  document.body.appendChild(banner);
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((result) => {
+      deferredPrompt = null;
+      const banner = document.getElementById('installBanner');
+      if (banner) banner.remove();
+    });
+  }
+}
   </script>
 </body>
 </html>
